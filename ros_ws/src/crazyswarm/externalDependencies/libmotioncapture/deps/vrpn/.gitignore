@@ -1,0 +1,45 @@
+# xcode/mac files
+*~.nib/
+*.perspective
+*.perspectivev3
+*.pbxuser
+*.mode1v3
+.DS_Store
+profile
+._*
+
+# backup files
+*~
+*.bak
+
+# compiled or object files
+*.o
+*.pyc
+*.pyo
+
+# Build/Output Files Directories
+build/
+
+# Anjuta files
+.anjuta/
+.anjuta_sym_db.db
+
+/docs/
+*.vcproj.*.user
+*.ncb
+*.suo
+/pc_win32/
+pc_cygwin
+.depend
+
+# Visual Studio
+UpgradeLog*
+Debug/
+Release/
+_UpgradeReport_Files/
+*.sln.cache
+*.tmp*.vcproj
+.vscode/
+
+# Profiling files
+*.profraw

@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Wextra -O2 -g -DNDEBUG   CMakeFiles/packetClient.dir/src/main.cpp.o CMakeFiles/packetClient.dir/samples/PacketClient/PacketClient.cpp.o  -o packetClient  /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0 -pthread 

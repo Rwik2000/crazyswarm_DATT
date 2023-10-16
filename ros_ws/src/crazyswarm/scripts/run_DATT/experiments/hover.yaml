@@ -1,0 +1,29 @@
+# Take off and landig parameters
+takeoff_height: 0.75
+takeoff_rate: 0.5
+landing_height: 0.005
+landing_rate: 0.001
+
+E_BB_width: 3.0 # emergency bounding box width limit
+E_BB_height: 1.3 # emergency bounding box width limit
+
+kalman_warmup: 3.0
+
+# Run Details
+
+tasks: 
+  - ref: 'set_hover_ref'
+    cntrl: "PPOController"
+    time: 10.0
+    adaptive: False
+    policy_config: hover
+    description: "Hover PPO"
+
+  # - ref: 'set_hover_ref'
+  #   cntrl: "PPOController"
+  #   policy_config : "hover_adaptive"
+  #   time: 5.0
+  #   adaptive : True
+  #   description: "hover adaptive PPO"
+
+rwik : hello

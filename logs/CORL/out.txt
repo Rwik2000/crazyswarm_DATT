@@ -1,0 +1,2 @@
+june_08/real/chpoly_2d_seed0_ppo_L1_0.npz
+overall error :  0.07243245032415789 std :  0.05500434870435087

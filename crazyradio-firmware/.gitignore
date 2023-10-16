@@ -1,0 +1,10 @@
+*~
+firmware/bin/*
+*.pyc
+*.o
+nrfProg/nrfProg
+*.gch
+TAGS
+
+#jykell files
+docs/.jekyll-metadata

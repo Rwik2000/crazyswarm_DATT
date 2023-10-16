@@ -1,0 +1,36 @@
+# Take off and landig parameters
+takeoff_height: 0.4
+takeoff_rate: 0.5
+landing_height: 0.005
+landing_rate: 0.5
+
+E_BB_width: 3.0 # emergency bounding box width limit
+E_BB_height: 1.3 # emergency bounding box width limit
+
+kalman_warmup: 3.0
+
+# Default Controller -> for takeoff and landing
+
+def_cntrl:
+  - cntrl : "diffFlat_PIDController"
+    adaptive: False
+    policy_config: none
+
+# Run Details
+
+tasks: 
+  - ref: 'set_hover_ref'
+    final_pt: none
+    cntrl: "diffFlat_PIDController"
+    time: 5.0
+    adaptive: False
+    policy_config: none
+    description: "Hover PPO"
+
+  - ref: 'goto'
+    final_pt: [4.0, 4.0, 0.0]
+    cntrl: "diffFlat_PIDController"
+    policy_config : none
+    time: 30.0
+    adaptive : False
+    description: "goto diffFlatPID"

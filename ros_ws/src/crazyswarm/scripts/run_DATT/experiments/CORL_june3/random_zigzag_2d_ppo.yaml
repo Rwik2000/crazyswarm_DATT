@@ -1,0 +1,38 @@
+# Take off and landig parameters
+takeoff_height: 1.5
+takeoff_rate: 0.5
+landing_height: 0.1
+landing_rate: 0.001
+
+E_BB_width: 12.0 # emergency bounding box width limit
+E_BB_height: 2.3 # emergency bounding box width limit
+
+kalman_warmup: 3.0
+
+# Run Details
+
+tasks: 
+  - ref: 'set_hover_ref'
+    cntrl: "PIDController"
+    time: 6.5
+    adaptive: False
+    policy_config: none
+    description: "hover init"
+
+  - ref: 'N_pointed_star_ref'
+    cntrl: "PPOController_trajectory"
+    time: 8.5
+    adaptive: False
+    policy_config: trajectory_2d
+    description: "Trajectory PPO"
+    seed : 0
+    maxes : [1.0, 1.0, 0.0]
+  
+  # - ref: 'set_hover_ref'
+  #   cntrl: "PIDController"
+  #   time: 1.0
+  #   adaptive: False
+  #   policy_config: none
+  #   description: "hover init"
+
+rwik : hello

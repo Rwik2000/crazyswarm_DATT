@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/matrix.c
+math.h
+-
+stdio.h
+-
+quat.h
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/quat.h
+
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/quat.c
+quat.h
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/quat.h
+math.h
+-
+stdio.h
+-
+
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/quat.h
+
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/vector.c
+math.h
+-
+stdio.h
+-
+quat.h
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/quat.h
+
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/xyzquat.c
+quat.h
+/home/rwik/proj/Drones/crazyswarm/ros_ws/src/crazyswarm/externalDependencies/libmotioncapture/deps/vrpn/quat/quat.h
+

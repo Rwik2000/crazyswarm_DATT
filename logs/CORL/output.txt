@@ -1,0 +1,115 @@
+RUN :  ppo-mppi-xy__chpoly_xy_seed0
+sim RMSE :  [0.04237974 0.04723748 0.30846918]
+real RMSE :  [0.0681619  0.09737213 0.22755973]
+
+
+RUN :  ppo-mppi-xy__chpoly_xy_seed1
+sim RMSE :  [0.01866067 0.05118773 0.27947503]
+real RMSE :  [0.08155142 0.08863861 0.28312194]
+
+
+RUN :  ppo-mppi-xy__zz_x_seed0
+sim RMSE :  [0.0812658  0.02324951 0.28357755]
+real RMSE :  [0.11373868 0.02682921 0.33825299]
+
+
+RUN :  ppo-mppi-xy__zz_x_seed1
+sim RMSE :  [0.09912201 0.02357108 0.27089302]
+real RMSE :  [0.12439875 0.02883842 0.22109519]
+
+
+RUN :  ppo-mppi-xy__zz_x_seed2
+sim RMSE :  [0.10511182 0.02732507 0.27713579]
+real RMSE :  [0.14579388 0.02149161 0.25656163]
+
+
+RUN :  ppo-mppi-xy__zz_x_seed3
+sim RMSE :  [0.09438011 0.02318888 0.28317684]
+real RMSE :  [0.12617057 0.02539661 0.40230799]
+
+
+RUN :  ppo-mppi-xy__zz_xy_seed0
+sim RMSE :  [0.08573547 0.0420914  0.32938309]
+real RMSE :  [0.11520891 0.07186259 0.41575991]
+
+
+RUN :  ppo-mppi-xy__zz_xy_seed1
+sim RMSE :  [0.13931748 0.10526556 0.57807061]
+real RMSE :  [0.1250775  0.11093874 0.36501452]
+
+
+RUN :  ppo-mppi-xy__zz_xy_seed2
+sim RMSE :  [0.17151547 0.13996091 0.65988512]
+real RMSE :  [0.16925731 0.15074532 0.37427523]
+
+
+RUN :  ppo-mppi-xy__zz_xy_seed3
+sim RMSE :  [0.1082047  0.08143099 0.43165724]
+real RMSE :  [0.12532712 0.10870961 0.3141208 ]
+
+
+RUN :  ppo-mppi-x__zz_x_seed0
+sim RMSE :  [0.0799618  0.0129843  0.30068686]
+real RMSE :  [0.08704029 0.02717802 0.38623593]
+
+
+RUN :  ppo-mppi-x__zz_x_seed1
+sim RMSE :  [0.11536728 0.01452226 0.35780448]
+real RMSE :  [0.11480539 0.0217007  0.37051341]
+
+
+RUN :  ppo-mppi-x__zz_x_seed2
+sim RMSE :  [0.1098298  0.01516815 0.30120039]
+real RMSE :  [0.12892562 0.0170937  0.40401239]
+
+
+RUN :  ppo-rl-xy__chpoly_xy_seed0
+sim RMSE :  [0.02953748 0.03484536 0.25804318]
+real RMSE :  [0.03536299 0.05003014 0.35018444]
+
+
+RUN :  ppo-rl-xy__chpoly_xy_seed1
+sim RMSE :  [0.02034346 0.04079903 0.24802808]
+real RMSE :  [0.02309181 0.04466361 0.36982783]
+
+
+RUN :  ppo-rl-xy__chpoly_xy_seed2
+sim RMSE :  [0.02618606 0.04314102 0.2458627 ]
+real RMSE :  [0.03583081 0.04992257 0.3425937 ]
+
+
+RUN :  ppo-rl-xy__circ_rad0.5_per2.0
+sim RMSE :  [0.41969347 0.07375941 0.31163252]
+real RMSE :  [0.40343391 0.10731424 0.37895414]
+
+
+RUN :  ppo-rl-xy__zz_xy_seed0
+sim RMSE :  [0.05287628 0.03678252 0.24601518]
+real RMSE :  [0.07812218 0.05301866 0.34065311]
+
+
+RUN :  ppo-rl-xy__zz_xy_seed1
+sim RMSE :  [0.07284273 0.04705487 0.27343281]
+real RMSE :  [0.11500851 0.07273567 0.35328372]
+
+
+RUN :  ppo-rl-xy__zz_xy_seed2
+sim RMSE :  [0.07517531 0.06559452 0.27784185]
+real RMSE :  [0.13825305 0.12183573 0.34726056]
+
+
+RUN :  ppo-rl-x__zz_x_seed0
+sim RMSE :  [0.05294998 0.01678009 0.23843689]
+real RMSE :  [0.08878708 0.01873251 0.43841435]
+
+
+RUN :  ppo-rl-x__zz_x_seed1
+sim RMSE :  [0.08269993 0.0160362  0.23535922]
+real RMSE :  [0.14785243 0.01950549 0.39011118]
+
+
+RUN :  ppo-rl-x__zz_x_seed2
+sim RMSE :  [0.07673723 0.01770623 0.24160434]
+real RMSE :  [0.16218578 0.04972792 0.41084293]
+
+

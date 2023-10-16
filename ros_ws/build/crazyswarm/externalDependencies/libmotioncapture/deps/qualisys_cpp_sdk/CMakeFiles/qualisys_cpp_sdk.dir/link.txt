@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O2 -g -DNDEBUG  -shared -Wl,-soname,libqualisys_cpp_sdk.so -o /home/rwik/proj/Drones/crazyswarm/ros_ws/devel/lib/libqualisys_cpp_sdk.so CMakeFiles/qualisys_cpp_sdk.dir/Markup.cpp.o CMakeFiles/qualisys_cpp_sdk.dir/Network.cpp.o CMakeFiles/qualisys_cpp_sdk.dir/RTPacket.cpp.o CMakeFiles/qualisys_cpp_sdk.dir/RTProtocol.cpp.o 

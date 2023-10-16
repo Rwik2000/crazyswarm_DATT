@@ -1,0 +1,16 @@
+zz_2d_seed0_mppi_0.npz
+zz_2d_seed0_pid_L1_0.npz
+zz_2d_seed0_ppo_L1_0.npz
+zz_2d_seed0_ppo_L1_ps_0.npz
+zz_2d_seed1_mppi_0.npz
+zz_2d_seed1_ppo_L1_0.npz
+zz_2d_seed1_ppo_L1_ps_0.npz
+zz_2d_seed2_mppi_0.npz
+zz_2d_seed2_ppo_L1_0.npz
+zz_2d_seed2_ppo_L1_ps_0.npz
+zz_2d_seed3_mppi_0.npz
+zz_2d_seed3_ppo_L1_0.npz
+zz_2d_seed3_ppo_L1_ps_0.npz
+zz_2d_seed4_mppi_0.npz
+zz_2d_seed4_ppo_L1_0.npz
+zz_2d_seed4_ppo_L1_ps_0.npz

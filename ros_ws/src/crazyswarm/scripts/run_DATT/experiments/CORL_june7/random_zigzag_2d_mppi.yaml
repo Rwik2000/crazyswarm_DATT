@@ -1,0 +1,29 @@
+# Take off and landig parameters
+takeoff_height: 0.0
+takeoff_rate: 0.5
+landing_height: 0.1
+landing_rate: 0.001
+
+E_BB_width: 4.0 # emergency bounding box width limit
+E_BB_height: 1.3 # emergency bounding box width limit
+
+kalman_warmup: 3.0
+
+# Run Details
+
+tasks: 
+  # - ref: 'hover_ref'
+  #   cntrl: "PIDController"
+  #   time: 100.0
+  #   adaptive: False
+  #   policy_config: none
+  #   description: "Hover init"
+
+  - ref: 'random_zigzag'
+    cntrl: "MPPIController"
+    time: 10.0
+    adaptive: False
+    policy_config: none
+    description: "Trajectory mppi"
+    seed : 0
+    maxes : [1.0, 1.0, 0.0]

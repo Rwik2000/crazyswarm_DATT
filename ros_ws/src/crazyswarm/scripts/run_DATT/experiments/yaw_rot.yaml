@@ -1,0 +1,52 @@
+# Take off and landig parameters
+takeoff_height: 0.75
+takeoff_rate: 0.5
+landing_height: 0.005
+landing_rate: 0.001
+
+E_BB_width: 3.0 # emergency bounding box width limit
+E_BB_height: 1.3 # emergency bounding box width limit
+
+kalman_warmup: 3.0
+
+# Run Details
+
+tasks: 
+  - ref: 'set_hover_ref'
+    cntrl: "PIDController"
+    time: 3.0
+    policy_config: none
+    description: "Hover PID"
+
+  - ref: 'yaw_rot'
+    cntrl: "PPOController_adaptive"
+    policy_config : "yawflip"
+    time: 5.0
+    description: "PPO yaw rotation"
+
+  
+  # - ref: 'set_circle_ref'
+  #   cntrl: "ppo_controller"
+  #   gainTune: False
+  #   time: 10.0
+  #   description: "circle PID"
+  
+  # - ref: 'set_hover_ref'
+  #   cntrl: "ppo_controller"
+  #   gainTune: False
+  #   time: 10.0
+  #   description: "Hover PPO"
+
+  # - ref: 'set_hover_ref'
+  #   cntrl: "bc_controller"
+  #   gainTune: False
+  #   time: 3.0
+  #   description: "Hover Behaviour"
+    
+  # - ref: 'set_hover_ref'
+  #   cntrl: "ppo_controller"
+  #   gainTune: True
+  #   time: 4.0
+  #   description: "Hover ppo GT"
+
+rwik : hello

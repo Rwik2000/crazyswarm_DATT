@@ -1,0 +1,40 @@
+JSONCPP is required to build a VRPN server for the Vrpn Android widgets (see  android_widgets directory).
+
+If you've done a recursive clone, JSONCPP is in the submodules directory,
+will be built automatically, and you can completely ignore the rest of this file.
+
+Get the latest JSONCPP (r156 has been used successfully) from 
+	http://jsoncpp.svn.sourceforge.net/svnroot/jsoncpp/trunk/jsoncpp
+
+You will also need Scons and Python
+
+To build jsoncpp, see README.txt in the JSONCPP directory, but :
+1/ 	Get scons-local (2.0.1 is OK) from http://www.scons.org/download.php 
+	instead of the link in the README, then
+	extract scons-local into the jsoncpp directory as mentionned in the README
+2/  To avoid LNK2005 errors when building VRPN, you will need to edit jsoncpp/Sconstruct
+	locate the section relative to your build environment, for instance :
+		elif platform == 'msvc90':
+	in this instruction block, replace the line :
+		env['CXXFLAGS']='xxxxxxx /MT'
+	by : 
+		env['CXXFLAGS']='xxxxxxx /MD'
+3/ To build with Visual Studio, run the Visual Studio command that configures environment variables
+	(on VS-2008-32, look for a file named vsvars32.bat), otherwise scons may not  find the compiler
+	
+Then build, for instance with the command
+	c:\Python27\python.exe scons.py platform=msvc90
+
+The values allowed for platform are 
+	suncc vacpp mingw msvc6 msvc7 msvc71 msvc80 msvc90 linux-gcc
+
+WARNING:
+	the JSONCPP build system builds a Release version. Using this release library with a
+	Debug VRPN server crashes.
+	
+To clean, use the command
+	c:\Python271\python.exe scons.py platform=msvc90 -c
+
+Then, run CMAKE for VRPN, define VRPN_USE_JSONNET and JSONCPP_ROOT_DIR.
+
+

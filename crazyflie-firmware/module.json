@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "environmentReq": [
+    "arm-none-eabi"
+  ],
+  "artifacts": {
+    "file": [
+      {
+        "source": "*.bin",
+        "insertTag": true,
+        "destination": "currDir"
+      },
+      {
+        "source": "*.dfu",
+        "insertTag": true,
+        "destination": "currDir"
+      }
+    ]
+  },
+  "targets": {
+    "cf2": [
+      "PLATFORM=cf2"
+    ],
+    "tag": [
+      "PLATFORM=tag"
+    ]
+  }
+}

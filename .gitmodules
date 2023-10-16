@@ -1,0 +1,21 @@
+[submodule "crazyflie-firmware"]
+	path = crazyflie-firmware
+	url = https://github.com/Rwik2000/crazyflie-firmware
+	branch = AngVelController
+[submodule "crazyradio-firmware"]
+        path = crazyradio-firmware
+        url = https://github.com/bitcraze/crazyradio-firmware
+        branch = master
+[submodule "crazyflie-clients-python"]
+        path = crazyflie-clients-python
+        url = https://github.com/bitcraze/crazyflie-clients-python
+        branch = master
+[submodule "ros_ws/src/externalDependencies/libobjecttracker"]
+	path = ros_ws/src/externalDependencies/libobjecttracker
+	url = https://github.com/USC-ACTLab/libobjecttracker
+[submodule "ros_ws/src/externalDependencies/libmotioncapture"]
+	path = ros_ws/src/crazyswarm/externalDependencies/libmotioncapture
+	url = https://github.com/IMRCLab/libmotioncapture.git
+[submodule "ros_ws/src/crazyflie_tools"]
+	path = ros_ws/src/crazyflie_tools
+	url = https://github.com/whoenig/crazyflie_tools.git

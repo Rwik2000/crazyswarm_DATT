@@ -1,3 +1,15 @@
+## Installation
+
+Follow the steps given in [https://crazyswarm.readthedocs.io/en/latest/installation.html](https://crazyswarm.readthedocs.io/en/latest/installation.html)
+
+In step 6, replace the github repository they provided with the current repository i.e. 
+
+```bash
+# STEP 6 : 
+git clone https://github.com/Rwik2000/crazyswarm_DATT
+
+```
+
 ## Drone Learning
 
 - DATT -> [https://github.com/Rwik2000/crazyswarm/tree/exp/ros_ws/src/crazyswarm/scripts/run_DATT](https://github.com/Rwik2000/crazyswarm/tree/exp/ros_ws/src/crazyswarm/scripts/run_DATT)

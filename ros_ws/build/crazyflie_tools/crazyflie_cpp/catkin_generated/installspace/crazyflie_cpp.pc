@@ -1,8 +1,0 @@
-prefix=/home/rwik/proj/Drones/crazyswarm/ros_ws/install
-
-Name: crazyflie_cpp
-Description: Description of crazyflie_cpp
-Version: 0.0.1
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib -lcrazyflie_cpp
-Requires: 

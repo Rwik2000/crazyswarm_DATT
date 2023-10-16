@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/rwik/proj/Drones/crazyswarm/ros_ws/devel/setup.sh
+    local-name: /home/rwik/proj/Drones/crazyswarm_DATT/ros_ws/devel/setup.sh

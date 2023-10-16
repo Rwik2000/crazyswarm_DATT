@@ -1,8 +1,0 @@
-prefix=/home/rwik/proj/Drones/crazyswarm/ros_ws/devel
-
-Name: crazyswarm
-Description: Description of crazyswarm
-Version: 0.0.3
-Cflags: -I/home/rwik/proj/Drones/crazyswarm/ros_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: message_runtime std_msgs tf crazyflie_cpp

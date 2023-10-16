@@ -1,1 +1,0 @@
-/usr/bin/c++  -O2 -g -DNDEBUG  -rdynamic CMakeFiles/log.dir/src/log.cpp.o  -o /home/rwik/proj/Drones/crazyswarm/ros_ws/devel/lib/crazyflie_tools/log  -Wl,-rpath,/home/rwik/proj/Drones/crazyswarm/ros_ws/devel/lib /home/rwik/proj/Drones/crazyswarm/ros_ws/devel/lib/libcrazyflie_cpp.so /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0 -lusb-1.0 

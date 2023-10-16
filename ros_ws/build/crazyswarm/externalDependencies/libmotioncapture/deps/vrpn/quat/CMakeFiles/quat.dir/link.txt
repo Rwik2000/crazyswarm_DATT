@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC -O2 -g -DNDEBUG  -shared -Wl,-soname,libquat.so -o /home/rwik/proj/Drones/crazyswarm/ros_ws/devel/lib/libquat.so CMakeFiles/quat.dir/matrix.c.o CMakeFiles/quat.dir/quat.c.o CMakeFiles/quat.dir/vector.c.o CMakeFiles/quat.dir/xyzquat.c.o  -lm 

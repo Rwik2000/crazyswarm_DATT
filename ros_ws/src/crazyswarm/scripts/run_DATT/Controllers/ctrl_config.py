@@ -42,10 +42,6 @@ def select_policy_config_(policy_config):
 
     if policy_config == "trajectory":
         task: DroneTask = DroneTask.TRAJFBFF
-        # policy_name =DIR + '/' + "traj_fbff_h10_p1_3i"
-        # policy_name =DIR + '/' + "traj_random_zigzag_curriculum"
-        # policy_name =DIR + '/' + "ppo_base"
-        # policy_name =DIR + '/' + "traj_mixed_reset_thresh_5000_body_frame_relative_fixed3_7500000_steps.zip"
         policy_name =DIR + '/' + "ppo-rl-zigzag_x_bf_rel.zip" # traj_mixed_reset_thresh_5000_body_frame_relative_fixed3_7500000_steps.zip
         config_filename = "trajectory_latency.py"
         body_frame = True
@@ -53,22 +49,12 @@ def select_policy_config_(policy_config):
     
     if policy_config == "trajectory_2d":
         task: DroneTask = DroneTask.TRAJFBFF
-        # policy_name =DIR + '/' + "ppo-rl-zigzag_xy_bf_rel.zip" # traj_mixed2D_reset_thresh_5000_body_frame_relative_fixed3.zip
         policy_name = DIR + '/' + 'traj_mixed2D_all_refs_diffaxis2_17500000_steps.zip'
-        # policy_name = DIR + '/' + "traj_mixed2D_symlog_noisy.zip"
         config_filename = "trajectory_latency.py"
         body_frame = True
         relative = True
         log_scale = False
     
-    if policy_config == "trajectory_2d_sym":
-        task: DroneTask = DroneTask.TRAJFBFF
-        # policy_name =DIR + '/' + "ppo-rl-zigzag_xy_bf_rel.zip" # traj_mixed2D_reset_thresh_5000_body_frame_relative_fixed3.zip
-        policy_name = DIR + '/' + "traj_mixed2D_symlog_noisy.zip"
-        config_filename = "trajectory_latency.py"
-        body_frame = True
-        relative = True
-        log_scale = True
     
     if policy_config == "trajectory_3d":
         task: DroneTask = DroneTask.TRAJFBFF
@@ -85,95 +71,8 @@ def select_policy_config_(policy_config):
         body_frame = True
         relative = True
         log_scale = True
-    
-            
-    if policy_config == "trajectory_2d_mass_adaptive":
-        task: DroneTask = DroneTask.TRAJFBFF
-        policy_name =DIR + '/' + "traj_mixed2D_mass_adaptive_symlog.zip"
-        adaptive_policy_name =  RMA + '/' + 'RMA_mass_nowind.pth'
-        config_filename = "trajectory_wind_adaptive.py"
-        e_dims = 1
-        body_frame = True
-        relative = True
-        log_scale = True
-    
-    if policy_config == "trajectory_2d_wind_adaptive":
-        task: DroneTask = DroneTask.TRAJFBFF
-        # policy_name =DIR + '/' + "traj_mixed2D_wind_adaptive2_REAL"
-        # policy_name =DIR + '/' + "traj_mixed2D_wind_high_wind"
-        policy_name = DIR + '/' + "traj_mixed2D_wind_L1_randomwalk8_22500000_steps.zip"
-        # policy_name = DIR + '/' + "traj_mixed2D_wind_L1.zip"
-        # policy_name = DIR + '/' + "traj_mixed2D_wind_randomwalk_low.zip"
-
-        adaptive_policy_name =  RMA + '/' + 'wind_adaptation_net_RMA.pth'
-        config_filename = "trajectory_wind_adaptive.py"
-        e_dims = 3
-        body_frame = True
-        relative = True
-        log_scale = True
-    
-    # if policy_config == "trajectory_2d_wind_adaptive":
-    #     task: DroneTask = DroneTask.TRAJFBFF
-    #     # policy_name =DIR + '/' + "traj_mixed2D_wind_adaptive2_REAL"
-    #     # policy_name =DIR + '/' + "traj_mixed2D_wind_high_wind"
-    #     policy_name = DIR + '/' + "traj_mixed2D_wind_L1_randomwalk8_22500000_steps.zip"
-    #     # policy_name = DIR + '/' + "traj_mixed2D_wind_L1.zip"
-    #     # policy_name = DIR + '/' + "traj_mixed2D_wind_randomwalk_low.zip"
-
-    #     adaptive_policy_name =  RMA + '/' + 'wind_adaptation_net_RMA.pth'
-    #     config_filename = "trajectory_wind_adaptive.py"
-    #     e_dims = 3
-    #     body_frame = True
-    #     relative = True
-    #     log_scale = True
-    
-    # if policy_config == "trajectory_2d_wind_adaptive_RMA":
-    #     task: DroneTask = DroneTask.TRAJFBFF
-    #     # policy_name =DIR + '/' + "traj_mixed2D_wind_adaptive2_REAL"
-    #     # policy_name =DIR + '/' + "traj_mixed2D_wind_high_wind"
-    #     policy_name = DIR + '/' + "traj_mixed2D_wind_L1_randomwalk8_22500000_steps.zip"
-    #     # policy_name = DIR + '/' + "traj_mixed2D_wind_L1.zip"
-    #     # policy_name = DIR + '/' + "traj_mixed2D_wind_randomwalk_low.zip"
-
-    #     adaptive_policy_name =  RMA + '/' + 'wind_adaptation_net_RMA'
-    #     config_filename = "trajectory_wind_adaptive.py"
-    #     e_dims = 3
-    #     body_frame = True
-    #     relative = True
-    #     log_scale = True
-    
-    if policy_config == "trajectory_2d_mass_wind_adaptive":
-        task: DroneTask = DroneTask.TRAJFBFF
-        policy_name =DIR + '/' + "traj_mixed2D_mass_wind_adaptive_low.zip"
-        adaptive_policy_name =  RMA + '/' + 'mass_wind_noisy_adaptation_net_9000'
-        config_filename = "trajectory_mass_wind_adaptive.py"
-        e_dims = 4
-        body_frame = True
-        relative = True
-        log_scale = False
-
-    if policy_config == "trajectory_2d_mass_wind_adaptive_ustruct":
-        task: DroneTask = DroneTask.TRAJFBFF
-        # policy_name =DIR + '/' + "rwik_mixed2D_ustruct_0.4_12500000_steps.zip"
-        policy_name = DIR + "/" + "rwik_mixed2D_ustruct_mass_wind_0.4_noisy_20000000_steps.zip"
-        adaptive_policy_name =  RMA + '/' + 'rwik_adapt_2_4500'
-        config_filename = "trajectory_mass_wind_adaptive.py"
-        e_dims = 4
-        body_frame = True
-        relative = True
-        log_scale = True
-        u_struct = True
-    
-    if policy_config == "trajectory_2d_mass_wind_adaptive_noise":
-        task: DroneTask = DroneTask.TRAJFBFF
-        policy_name  = DIR + '/' + 'traj_mixed2D_mass_wind_adaptive_best.zip'
-        adaptive_policy_name =  RMA + '/' + 'mass_wind_adaptation_net_noisy'
-        config_filename = "trajectory_mass_wind_adaptive.py"
-        e_dims = 4
-        body_frame = True
-        relative = True
-        log_scale = False
-    
+     
+   
     if policy_config == "trajectory_2d_wind_adaptive":
         task: DroneTask = DroneTask.TRAJFBFF
         policy_name  = DIR + '/' + 'traj_mixed2D_wind_adaptive2_REAL.zip'
@@ -192,33 +91,7 @@ def select_policy_config_(policy_config):
         body_frame = True
         relative = True
         log_scale = False
-    
-    if policy_config == "trajectory_2d_mass_wind_adaptive_noise_warmup":
-        task: DroneTask = DroneTask.TRAJFBFF
-        policy_name  = DIR + '/' + 'traj_mixed2D_mass_wind_adaptive_best.zip'
-        adaptive_policy_name =  RMA + '/' + 'hi_mass_low_wind_adaptation_net_REAL'
-        config_filename = "trajectory_mass_wind_adaptive.py"
-        e_dims = 4
-        body_frame = True
-        relative = True
-        log_scale = False
-        adaptation_warmup = True
-    
-    if policy_config == "trajectory_2o":
-        task: DroneTask = DroneTask.TRAJFBFF
-        policy_name =DIR + '/' + "traj_mixed2D_2nd_order_0404"
-        config_filename = "trajectory_latency_0404.py"
-        body_frame = True
-        relative = True
-        log_scale = False
-    
-    if policy_config == "yawflip":
-        task: DroneTask = DroneTask.YAWFLIP
-        policy_name =DIR + '/' + "yawflip_high_latency_2.zip"
-        config_filename = "yawflip_latency.py"
-        body_frame = False
-        relative = False
-        log_scale = False
+
     
     policy_dict = {"task":task,
                    "policy_name":policy_name,

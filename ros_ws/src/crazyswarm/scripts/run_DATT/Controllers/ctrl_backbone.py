@@ -30,9 +30,7 @@ class ControllerBackbone():
         self.adaptation_terms = np.zeros(4)
         self.adaptation_mean = np.zeros((1, 4))
         self.adapt_smooth = adapt_smooth
-        # self.I = np.array([[3.144988, 4.753588, 4.640540],
-        #                    [4.753588, 3.151127, 4.541223],
-        #                    [4.640540, 4.541223, 7.058874]])*1e-5
+
         self.I = np.array([16.571710e-6, 16.655602e-6, 29.261652e-6])
         
         self.prev_t = None
@@ -116,11 +114,8 @@ class ControllerBackbone():
         self.prev_pos = 0.
     
     def set_MPPI_controller(self,):
-        config_dir = config_dir = os.path.dirname(os.path.abspath(__file__)) + "/mppi_config"
-
-        # config_dir = "/mnt/hdd/drones/crazyswarm/ros_ws/src/crazyswarm/scripts/DroneLearning/Controllers/mppi_config"
-        # config_dir = "/home/guan/ya/rwik/drones/crazyswarm/ros_ws/src/crazyswarm/scripts/DroneLearning/Controllers/mppi_config"
-        with open(config_dir + "/hover.yaml") as f:
+        config_dir = config_dir = os.path.dirname(os.path.abspath(__file__))
+        with open(config_dir + "/mppi.yaml") as f:
             config = yaml.load(f, Loader=yaml.FullLoader)
         
         self.param_MPPI = Param(config, MPPI=True)
@@ -132,9 +127,7 @@ class ControllerBackbone():
     def set_BC_policy(self, ):
         from imitation.algorithms import bc
         BC = 'MPPI_BC'
-        # bc_policy_name = BC + '/' 'ppo_mppi_bc'
-        # bc_policy_name = BC + '/' 'ppo-mppi_zigzag_bf_rel_bc'
-        # bc_policy_name = BC + '/' 'ppo-mppi_zigzag_bc'
+
         bc_policy_name = BC + '/' 'ppo-mppi_zigzag_xy_bc'
         self.body_frame = False
         self.relative = False

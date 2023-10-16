@@ -9,7 +9,7 @@ from torch.autograd.functional import jacobian
 from stable_baselines3.common.env_util import make_vec_env
 import time
 
-class PPOController_trajectory_L1_adaptive(ControllerBackbone):
+class PPOController_trajectory_adaptive_L1(ControllerBackbone):
   def __init__(self, **kwargs):
     super().__init__(**kwargs)
 

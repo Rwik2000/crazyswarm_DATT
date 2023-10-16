@@ -42,7 +42,11 @@ namespace libobjecttracker {
 			}
 			auto millis = std::chrono::duration_cast<std::chrono::milliseconds>
 				(stamp - start).count();
+			log(millis, cloud);
+		}
 
+		void log(uint32_t millis, pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud)
+		{
 			write<uint32_t>(file, millis);
 			write<uint32_t>(file, cloud->size());
 			for (pcl::PointXYZ const &p : *cloud) {
@@ -100,7 +104,7 @@ namespace libobjecttracker {
 		void play(libobjecttracker::ObjectTracker &tracker) const
 		{
 			for (size_t i = 0; i < clouds.size(); ++i) {
-				printf("\n  %d  ------------------------------\n", i);
+				std::cout << "\n  " << i << "  ------------------------------\n";
 				auto dur = std::chrono::milliseconds(timestamps[i]);
 				std::chrono::high_resolution_clock::time_point stamp(dur);
 				tracker.update(stamp, clouds[i]);
@@ -136,7 +140,7 @@ namespace libobjecttracker {
 
 			//play points
 			for (size_t i = 0; i < clouds.size(); ++i) {
-				printf("\n  %d  ------------------------------\n", i);
+				std::cout << "\n  " << i << "  ------------------------------\n";
 				auto dur = std::chrono::milliseconds(timestamps[i]);
 				std::chrono::high_resolution_clock::time_point stamp(dur);
 				tracker.update(stamp, clouds[i]);
@@ -149,8 +153,8 @@ namespace libobjecttracker {
 				int a = 0;
 				for (auto & object : objects) {
 					++a;
-					printf("Object vector size: %d\n", objects.size());
-					printf("Object %d processing\n", a);
+					std::cout << "Object vector size: " << objects.size() << "\n";
+					std::cout << "Object " << a << " processing\n";
 					//debugging stuff
 					Cloud::Ptr &objMarkers = config[object.m_markerConfigurationIdx];
 					size_t const objNpts = objMarkers->size();
@@ -160,7 +164,7 @@ namespace libobjecttracker {
 					}
 				}
 			}
-			printf("Writing converted file\n");
+			std::cout << "Writing converted file\n";
 			std::ofstream s(writepath, std::ios::binary | std::ios::out);
 			for (size_t i = 0; i < matches.size(); ++i) {
 				write(s, timestamps[i]);

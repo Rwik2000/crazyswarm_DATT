@@ -3,12 +3,12 @@
 	url = https://github.com/Rwik2000/crazyflie-firmware
 	branch = AngVelController
 [submodule "crazyradio-firmware"]
-        path = crazyradio-firmware
-        url = https://github.com/bitcraze/crazyradio-firmware
+	path = crazyradio-firmware
+	url = https://github.com/bitcraze/crazyradio-firmware
         branch = master
 [submodule "crazyflie-clients-python"]
-        path = crazyflie-clients-python
-        url = https://github.com/bitcraze/crazyflie-clients-python
+	path = crazyflie-clients-python
+	url = https://github.com/bitcraze/crazyflie-clients-python
         branch = master
 [submodule "ros_ws/src/externalDependencies/libobjecttracker"]
 	path = ros_ws/src/externalDependencies/libobjecttracker

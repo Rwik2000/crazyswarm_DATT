@@ -24,7 +24,7 @@ tasks:
     time: 10.0
     adaptive: True
     policy_config: trajectory_2d_wind_adaptive_RMA
-    description: "Trajectory PPO"
+    description: "Trajectory DATT RMA"
     maxes : [1.0, 1.0 ,0.0]
     seed : 0
 

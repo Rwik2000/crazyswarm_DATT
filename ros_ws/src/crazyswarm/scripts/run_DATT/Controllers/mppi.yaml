@@ -11,6 +11,8 @@ lam: 0.05 # temparature
 H: 40 # horizon
 N: 8000 # number of samples
 K_delay: 0.4
+sim_K_delay: 0.4
+
 sample_std: [0.25, 0.7, 0.7, 0.7] # standard deviation for sampling: [thrust (unit: hovering thrust), omega (unit: rad/s)]
 gamma_mean: 1.0 # learning rate
 gamma_Sigma: 0. # learning rate
@@ -25,3 +27,6 @@ alpha_w: 0.0
 alpha_a: 0.0
 alpha_R: 3.0
 alpha_v: 0.0
+alpha_z: 0.0
+alpha_yaw: 0.0
+

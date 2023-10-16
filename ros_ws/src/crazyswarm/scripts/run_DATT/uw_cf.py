@@ -58,8 +58,6 @@ class ctrlCF():
         self.logfile = run_args.logfile
         self.debug = run_args.debug
         self.gui = run_args.gui
-        self.adapt_warmup = run_args.adapt_warmup
-        self.adaptation_smoothing = run_args.adapt_smoothing
         self.viz_sim = run_args.viz
         self.adaptation_warmup_value = np.zeros(4)
 
@@ -668,8 +666,6 @@ if __name__ == "__main__":
     parser.add_argument('-gui', type=bool, default=False)
     parser.add_argument('-seed', type=int, default=None, help='try not use this and use the yaml file to send the seeds')
     parser.add_argument('-ps','--pseudo', type=bool, default=False, help='pseudo adapt')
-    parser.add_argument('-aw','--adapt_warmup', type=bool, default=False, help='adaptation warmup')
-    parser.add_argument('-as','--adapt_smoothing', type=bool, default=False, help='adaptation smoothing')
 
 
 

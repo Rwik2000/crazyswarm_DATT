@@ -16,18 +16,7 @@ class PPOController_trajectory_adaptive_L1(ControllerBackbone):
     self.set_policy()
 
     self.history = np.zeros((1, 14, 5))
-    self.history_rma = np.zeros((1, 14, 50))
     
-    # Override L1 params
-    # # naive params
-    # self.lamb = 0.2
-
-    # # L1 params
-    # self.runL1 = False # L1 v/s naive toggle
-    # self.filter_coeff = 5
-    # self.A = -0.2
-    # self.count = 0
-
   def _response(self, fl = 1, **response_inputs):
 
     t = response_inputs.get('t')
@@ -69,7 +58,6 @@ class PPOController_trajectory_adaptive_L1(ControllerBackbone):
 
     obs = np.hstack((pos, vel, quat))
     
-    st = time.time()
     if self.pseudo_adapt== False and fl!=0.0:
       if self.count > 2:
         v_t = state.vel
@@ -83,22 +71,13 @@ class PPOController_trajectory_adaptive_L1(ControllerBackbone):
       else:
         self.naive_adaptation(a_t, f_t)
       
-
-      # rwik = self.adaptive_policy(torch.tensor(self.history_rma).float())
-
-      # self.wind_adapt_term = rwik[0].detach().cpu().numpy()
-      # print(self.wind_adapt_term)
-      # print(rwik)
-      # print(self.wind_adapt_term)
-      # self.wind_adapt_term = np.random.normal(0, 0.5, self.e_dims) + np.array([1.0, -0.5, 0])
       self.adaptation_terms[1: ] = self.wind_adapt_term
       obs_ = np.hstack((obs, self.wind_adapt_term))
     else:
       pseudo_adapt_term =  np.zeros(self.e_dims)
-      # pseudo_adapt_term = np.random.normal(0, 0.5, self.e_dims) + np.array([1.0, -0.5, 0])
       self.adaptation_terms[1: ] = pseudo_adapt_term
-      obs_ = np.hstack((obs, -pseudo_adapt_term))
-    mid = time.time() - st
+      obs_ = np.hstack((obs, pseudo_adapt_term))
+
     if fl==0:
         obs_ = np.zeros((self.time_horizon+1) * 3 + 10 + self.e_dims)
     else:
@@ -112,15 +91,7 @@ class PPOController_trajectory_adaptive_L1(ControllerBackbone):
 
     action, _ = self.policy.predict(obs_, deterministic=True)
 
-    rma_adaptation_input = np.concatenate((obs_bf, action), axis=0)
-    self.history_rma = np.concatenate((rma_adaptation_input[None, :, None], self.history_rma[:, :, :-1]), axis=2)
-    # adaptation_input = torch.from_numpy(adaptation_input).to("cuda:0").float()
-
-      # import pdb;pdb.set_trace()
-    if self.log_scale:
-      action[0] = np.sinh(action[0])
-    else:
-      action[0] += self.g
+    action[0] += self.g
     
     adaptation_input = np.concatenate((obs_bf, action), axis=0)
     if fl!=0.0:
@@ -129,8 +100,4 @@ class PPOController_trajectory_adaptive_L1(ControllerBackbone):
     self.count += 1
     self.v_prev = state.vel
 
-    # new_obs = np.hstack((obs, action))
-    # self.obs_history[1:] = self.obs_history[0:-1]
-    # self.obs_history[0] = new_obs
-    # import pdb;pdb.set_trace()
     return action[0], action[1:]

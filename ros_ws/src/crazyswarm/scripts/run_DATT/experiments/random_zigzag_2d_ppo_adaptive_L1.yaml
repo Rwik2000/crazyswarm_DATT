@@ -20,10 +20,10 @@ tasks:
     description: "hover init"
 
   - ref: 'random_zigzag'
-    cntrl: "PPOController_trajectory_adaptive_RMA"
+    cntrl: "PPOController_trajectory_adaptive_L1"
     time: 10.0
     adaptive: True
-    policy_config: trajectory_2d_wind_adaptive_RMA
+    policy_config: trajectory_2d_wind_adaptive_L1
     description: "Trajectory PPO"
     maxes : [1.0, 1.0 ,0.0]
     seed : 0

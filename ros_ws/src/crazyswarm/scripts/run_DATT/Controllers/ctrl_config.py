@@ -73,7 +73,7 @@ def select_policy_config_(policy_config):
         log_scale = True
      
    
-    if policy_config == "trajectory_2d_wind_adaptive":
+    if policy_config == "trajectory_2d_wind_adaptive_L1":
         task: DroneTask = DroneTask.TRAJFBFF
         policy_name  = DIR + '/' + 'traj_mixed2D_wind_adaptive2_REAL.zip'
         config_filename = "trajectory_wind_adaptive.py"

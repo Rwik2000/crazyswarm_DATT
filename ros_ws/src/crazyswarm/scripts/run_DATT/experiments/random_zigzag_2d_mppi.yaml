@@ -1,5 +1,5 @@
 # Take off and landig parameters
-takeoff_height: 0.0
+takeoff_height: 1.0
 takeoff_rate: 0.5
 landing_height: 0.1
 landing_rate: 0.001
@@ -12,12 +12,12 @@ kalman_warmup: 3.0
 # Run Details
 
 tasks: 
-  # - ref: 'hover_ref'
-  #   cntrl: "PIDController"
-  #   time: 100.0
-  #   adaptive: False
-  #   policy_config: none
-  #   description: "Hover init"
+  - ref: 'hover_ref'
+    cntrl: "PIDController"
+    time: 100.0
+    adaptive: False
+    policy_config: none
+    description: "Hover init"
 
   - ref: 'random_zigzag'
     cntrl: "MPPIController"

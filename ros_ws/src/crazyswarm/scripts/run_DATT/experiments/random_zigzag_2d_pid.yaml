@@ -19,20 +19,13 @@ tasks:
     policy_config: none
     description: "hover init"
 
-  # - ref: 'random_chained_poly'
-  #   cntrl: "PIDController"
-  #   time: 10.0
-  #   adaptive: False
-  #   policy_config: trajectory_2d
-  #   description: "Trajectory PPO"
-  #   seed : 0
-  #   maxes : [0.5, 0.5, 0.0]
-  
-  # - ref: 'set_hover_ref'
-  #   cntrl: "PIDController"
-  #   time: 1.0
-  #   adaptive: False
-  #   policy_config: none
-  #   description: "hover init"
+  - ref: 'random_chained_poly'
+    cntrl: "PIDController"
+    time: 10.0
+    adaptive: False
+    policy_config: trajectory_2d
+    description: "Trajectory PPO"
+    seed : 0
+    maxes : [0.5, 0.5, 0.0]
 
 rwik : hello

@@ -1,0 +1,16 @@
+ros_ws/build/
+ros_ws/devel/
+ros_ws/src/CMakeLists.txt
+.DS_Store
+*.pyc
+*~
+*.mexa64
+# james's symlinks :)
+cfs.yaml
+firm
+client
+*DroneLearning/configuration/*
+*DroneLearning/saved_policies/*
+*DroneLearning/test_policies/*
+launch # ignore launch symlink
+!*ros_ws/*launch* # don't ignore folders with launch in the name

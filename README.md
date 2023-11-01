@@ -1,3 +1,9 @@
+# Hardware Implementation of DATT : Deep Adaptive Trajectory Tracking for Quadrotor control
+
+## Code Base under progress
+
+## Training code : [https://github.com/KevinHuang8/DATT](https://github.com/KevinHuang8/DATT)
+
 ## Installation
 
 Follow the steps given in [https://crazyswarm.readthedocs.io/en/latest/installation.html](https://crazyswarm.readthedocs.io/en/latest/installation.html)

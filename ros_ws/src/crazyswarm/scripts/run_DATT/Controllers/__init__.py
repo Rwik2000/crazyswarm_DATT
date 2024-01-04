@@ -8,3 +8,4 @@
 # from Controllers.mppi_controller import MPPIController
 
 from DATT.controllers.pid_controller import PIDController
+from DATT.controllers.mppi_controller import MPPIController

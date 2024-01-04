@@ -20,10 +20,10 @@ tasks:
     description: "Hover init"
 
   - ref: 'random_zigzag'
-    cntrl: "PIDController"
+    cntrl: "MPPIController"
     time: 10.0
     adaptive: False
-    config: pid_config
+    config: mppi_config
     description: "traj init"
 
   # - ref: 'random_zigzag'

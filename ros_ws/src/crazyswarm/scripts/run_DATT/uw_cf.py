@@ -106,7 +106,9 @@ class ctrlCF():
             else:
                 
                 # JUGAAD
-                self.controllers[ctrl_policy] = (globals()[self.exp_config["tasks"][i]["cntrl"]])(datt_config, cntrl_config_presets.pid_config)
+                # self.exp_config["tasks"][i]["config"]
+                cntrl_config = getattr(cntrl_config_presets, self.exp_config["tasks"][i]["config"])
+                self.controllers[ctrl_policy] = (globals()[self.exp_config["tasks"][i]["cntrl"]])(datt_config, cntrl_config)
                 # Warming up controller
 
                 self.controllers[ctrl_policy].response(**warmup_inputs)
@@ -366,7 +368,7 @@ class ctrlCF():
     def switch_controller(self,offset_pos):
         ###### Setting the controller for the particular task
         if self.task_num>=0 and self.task_num<len(self.tasks):
-            controller_key = self.exp_config["tasks"][self.task_num]["cntrl"] + "_" + self.exp_config["tasks"][self.task_num]["policy_config"]
+            controller_key = self.exp_config["tasks"][self.task_num]["cntrl"] + "_" + self.exp_config["tasks"][self.task_num]["config"]
             self.curr_controller = self.controllers[controller_key]
             # self.curr_controller.offset_pos = np.copy(offset_pos)
             self.curr_controller.ref_func = self.ref_func
@@ -390,6 +392,7 @@ class ctrlCF():
 
         if t >= self.takeoff_time+self.tasks_time+self.warmup_time:
             self.task_num+=1
+            self.switch_controller(offset_pos)
 
         ###########################################################################
         if t<self.warmup_time:
@@ -469,7 +472,7 @@ class ctrlCF():
 
         # Iterating over the tasks
         # if t >= self.takeoff_time+self.tasks_time+self.warmup_time:
-        #     self.switch_controller(offset_pos)
+            # self.switch_controller(offset_pos)
         
         virtual_time = t - self.prev_task_time
         ref_pos = self.ref_func.pos(virtual_time)

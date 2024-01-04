@@ -14,33 +14,33 @@ import copy
 import matplotlib.pyplot as plt
 
 from cf_utils.rigid_body import State_struct
-from ref_traj import Trajectories
-from quadsim.dist import WindField, ConstantForce
+# from ref_traj import Trajectories
+from DATT.quadsim.dist import WindField, ConstantForce
 
-# import controller 
-# from Controllers.pid_controller import PIDController
 from collections import deque
 from Controllers import *
-# from Controllers.hover_ppo_controller import *
-# from Controllers.bc_controller import BCController
-# from Controllers.traj_ppo_controller import PPOController_trajectory
+from DATT.refs import TrajectoryRef, takeofflanding_ref
 
 
-from quadsim.learning.refs.gen_trajectory import Trajectory
+from DATT.refs.gen_trajectory import Trajectory
 
 # Actual Drone
 import rospy
 from geometry_msgs.msg import PoseStamped
 from pycrazyswarm import Crazyswarm
-# from quadsim.rigid_body import State
 
 # Quadsim simulator
-from quadsim.sim import QuadSim
-from quadsim.models import IdentityModel,crazyflieModel
+from DATT.quadsim.sim import QuadSim
+from DATT.quadsim.models import IdentityModel, crazyflieModel
 
 from pathlib import Path
 
-from quadsim.learning.refs.random_zigzag import RandomZigzag
+from DATT.refs.random_zigzag import RandomZigzag
+
+from DATT.configuration.configuration import AllConfig
+from DATT.controllers.cntrl_config import PIDConfig
+from DATT.controllers  import cntrl_config_presets
+from DATT.configuration.cf import datt_config
 
 
 np.set_printoptions(linewidth=np.inf)
@@ -65,33 +65,29 @@ class ctrlCF():
 
         self.state = State_struct()
         self.prev_state = State_struct()
-        self.ref = State_struct()
-        self.ref_func = None
-        self._ref_func_obj = RandomZigzag()
+        # self.ref = State_struct()
+        # self.ref_func = None
+        # self._ref_func_obj = RandomZigzag()
 
         self.def_seed = run_args.seed
 
         with open(run_args.config,"r") as f:
-            self.config = yaml.full_load(f)
+            self.exp_config = yaml.full_load(f)
         
-        if "def_cntrl" in self.config :
-            self.default_controller = (globals()[self.config["def_cntrl"][0]["cntrl"]])(isSim = self.isSim, 
-                                                                                        policy_config = self.config["def_cntrl"][0]["policy_config"],
-                                                                                        adaptive = self.config["def_cntrl"][0]["adaptive"])
-        else:
-            self.default_controller = PIDController(isSim = self.isSim)
-            # self.default_controller = PPOController(isSim = self.isSim, 
-            #                                         policy_config = "hover", 
-            #                                         adaptive = False)
+        # if "def_cntrl" in self.exp_config :
+        #     self.default_controller = (globals()[self.exp_config["def_cntrl"][0]["cntrl"]])(isSim = self.isSim, 
+        #                                                                                 policy_config = self.exp_config["def_cntrl"][0]["policy_config"],
+        #                                                                                 adaptive = self.exp_config["def_cntrl"][0]["adaptive"])
+        # else:
+        self.default_controller = PIDController(datt_config, cntrl_config_presets.pid_config)
+        self.ref_func = RandomZigzag()
+        self.default_controller.ref_func = self.ref_func
         
         warmup_inputs = {
             't' : 0.1, 
             'state' : self.state, 
-            'ref' : self.ref, 
-            'ref_func' : self.ref_func, 
-            'ref_func_obj' : self._ref_func_obj
         }
-        self.default_controller.response(fl=0., **warmup_inputs)
+        self.default_controller.response(**warmup_inputs)
 
         self.curr_controller = self.default_controller
 
@@ -101,22 +97,19 @@ class ctrlCF():
         # keys of the dict are saved as cntrl+"_"+policy_config
         self.controllers = { }        
         
-        print(self.config["tasks"])
-        for i in range(len(self.config["tasks"])):
-            ctrl_policy = self.config["tasks"][i]["cntrl"] + "_" + self.config["tasks"][i]["policy_config"]
+        print(self.exp_config["tasks"])
+        for i in range(len(self.exp_config["tasks"])):
+            ctrl_policy = self.exp_config["tasks"][i]["cntrl"] + "_" + self.exp_config["tasks"][i]["config"]
             # Checking if controller is already initialized
             if ctrl_policy in self.controllers.keys():
                 pass
             else:
-                    
-                self.controllers[ctrl_policy] = (globals()[self.config["tasks"][i]["cntrl"]])(isSim = self.isSim, 
-                                                                                        policy_config = self.config["tasks"][i]["policy_config"],
-                                                                                        adaptive = self.config["tasks"][i]["adaptive"],
-                                                                                        pseudo_adapt = run_args.pseudo,
-                                                                                        adapt_smooth = self.adaptation_smoothing)
+                
+                # JUGAAD
+                self.controllers[ctrl_policy] = (globals()[self.exp_config["tasks"][i]["cntrl"]])(datt_config, cntrl_config_presets.pid_config)
                 # Warming up controller
 
-                self.controllers[ctrl_policy].response(fl = 0, **warmup_inputs)
+                self.controllers[ctrl_policy].response(**warmup_inputs)
                 # self.controller.trajectories = Trajectories
         
 
@@ -130,7 +123,7 @@ class ctrlCF():
         else:
             # model = crazyflieModel()
             model = IdentityModel()
-            self.cf = QuadSim(model, name=self.cfName)
+            self.cf = QuadSim(model, vis=self.viz_sim)
             eu = np.array([0., 0., 0.])
             rot = R.from_euler('xyz', eu)
             init_state = State_struct(rot = rot)
@@ -165,8 +158,8 @@ class ctrlCF():
         of the bounding box.
         '''
         pos = self.state.pos
-        w_bound = self.config["E_BB_width"]
-        h_bound = self.config["E_BB_height"]
+        w_bound = self.exp_config["E_BB_width"]
+        h_bound = self.exp_config["E_BB_height"]
         if abs(pos[0] - self.init_pos[0]) > w_bound / 2 or abs(pos[1] - self.init_pos[1]) > w_bound / 2 or pos[2]>h_bound:
             print('Out of Bounding Box EMERGENCY STOP!!')
             self.swarm.allcfs.emergency()
@@ -194,8 +187,8 @@ class ctrlCF():
 
     def set_tasks(self,):
         self.tasks = []
-        if self.config["tasks"] is not None:
-            self.tasks = self.config["tasks"]
+        if self.exp_config["tasks"] is not None:
+            self.tasks = self.exp_config["tasks"]
 
         self.flag= {
                     "takeoff": 0,
@@ -220,13 +213,14 @@ class ctrlCF():
                             and drone stops
         '''
         # All tasks are done taking the offset position (point after takeoff) as the origin
-        self.trajs = Trajectories(self.init_pos, self.gui)
+        # self.trajs = Trajectories(self.init_pos, self.gui)x
+        # self.ref_func = getattr(self.trajs, self.tasks[self.task_num]["ref"])
 
         # Making a landing position buffer
         self.land_buffer = deque([0.]*5)
         
-        self.takeoff_time = self.config["takeoff_height"]/self.config["takeoff_rate"]
-        self.warmup_time = self.config["kalman_warmup"]
+        self.takeoff_time = self.exp_config["takeoff_height"]/self.exp_config["takeoff_rate"]
+        self.warmup_time = self.exp_config["kalman_warmup"]
         
         if self.debug:
             self.takeoff_time = 100000
@@ -372,13 +366,15 @@ class ctrlCF():
     def switch_controller(self,offset_pos):
         ###### Setting the controller for the particular task
         if self.task_num>=0 and self.task_num<len(self.tasks):
-            controller_key = self.config["tasks"][self.task_num]["cntrl"] + "_" + self.config["tasks"][self.task_num]["policy_config"]
+            controller_key = self.exp_config["tasks"][self.task_num]["cntrl"] + "_" + self.exp_config["tasks"][self.task_num]["policy_config"]
             self.curr_controller = self.controllers[controller_key]
-            self.curr_controller.offset_pos = np.copy(offset_pos)
+            # self.curr_controller.offset_pos = np.copy(offset_pos)
+            self.curr_controller.ref_func = self.ref_func
         else:
             # PID controller for takeoff and landing
             self.curr_controller = self.default_controller
-            self.curr_controller.offset_pos = np.copy(offset_pos)
+            # self.curr_controller.offset_pos = np.copy(offset_pos)
+            self.curr_controller.ref_func = self.ref_func
 
     def set_refs_from_tasks(self,t,offset_pos):
         '''
@@ -390,12 +386,10 @@ class ctrlCF():
         self.task_num is the index of self.tasks currently being completed by the drone.
         NOTE: take off and landing are not considered in this task
         '''
-        self.trajs.curr_state = copy.deepcopy(self.state)
-        # Iterating over the tasks
+        # self.trajs.curr_state = copy.deepcopy(self.state)
+
         if t >= self.takeoff_time+self.tasks_time+self.warmup_time:
             self.task_num+=1
-            self.trajs.ret = 0
-            self.switch_controller(offset_pos)
 
         ###########################################################################
         if t<self.warmup_time:
@@ -408,18 +402,9 @@ class ctrlCF():
             if self.flag["takeoff"]==0:
                 print("********* TAKEOFF **********")
                 self.flag["takeoff"] = 1
-
-                final_pt = np.array([0., 0., self.config["takeoff_height"],])
-                self.trajs._goto_init(final_pt, self.config["takeoff_rate"])
-
-            self.ref,_ , self._ref_func_obj= self.trajs.DONT_USE_set_takeoff_ref(t - self.warmup_time,
-                                                    self.config["takeoff_height"],
-                                                    self.config["takeoff_rate"])
-            
-            self.ref_func = self.trajs.DONT_USE_set_takeoff_ref
-
-            # self.ref, _ = self.trajs.goto(t - self.warmup_time)
-            # self.ref_func
+                final_pt = np.array([0., 0., self.exp_config["takeoff_height"],])
+                self.ref_func = takeofflanding_ref(final_pt, self.exp_config['takeoff_rate'], self.state, offset_pos=np.zeros(3))
+                self.curr_controller.ref_func = self.ref_func
 
         ###### Tasks
         # Switching to the tasks and getting the reference trajectory positions
@@ -431,58 +416,71 @@ class ctrlCF():
 
                 self.flag["tasks"][self.task_num] = 1 
                 self.tasks_time += self.tasks[self.task_num]["time"]
-                
-                try:
-                    init_ref_func = getattr(self.trajs, self.tasks[self.task_num]["ref"]+"_")
-                    seed = self.def_seed
-                    ref_kwargs = {'seed':seed}
-                    if seed is None:
-                        if 'seed' in self.tasks[self.task_num].keys(): 
-                            ref_kwargs['seed'] = self.tasks[self.task_num]["seed"]
-                    if 'maxes' in self.tasks[self.task_num].keys(): 
-                        ref_kwargs['maxes'] = self.tasks[self.task_num]["maxes"]
-                    init_ref_func(**ref_kwargs)
-                except:
-                    pass
 
-                self.ref_func = getattr(self.trajs, self.tasks[self.task_num]["ref"])
+                ref_kwargs = {}
 
-                if self.tasks[self.task_num]["ref"] == "goto":
-                    self.trajs.last_state = copy.deepcopy(self.state)
-                    self.trajs.last_state.pos -= offset_pos
-                    
-                    if "final_pt" in  self.tasks[self.task_num] or self.tasks[self.task_num]["final_pt"] != None: 
-                        final_pt = np.array(self.tasks[self.task_num]["final_pt"])
+                if 'maxes' in self.tasks[self.task_num].keys(): 
+                    ref_kwargs['y_max'] = self.tasks[self.task_num]["maxes"][1]
+                    ref_kwargs['z_max'] = self.tasks[self.task_num]["maxes"][2]
+
+                if self.def_seed is None:
+                    if 'seed' in self.tasks[self.task_num].keys(): 
+                        ref_kwargs['seed'] = self.tasks[self.task_num]["seed"]
                     else:
-                        final_pt = np.zeros(3)
+                        ref_kwargs['seed'] = 0
+                else:
+                    ref_kwargs['seed'] = self.def_seed
 
-                    self.trajs._goto_init(final_pt)
-                
-            if t < self.takeoff_time + self.warmup_time + self.tasks_time:
-                self.trajs.curr_state.pos -= offset_pos
-                self.ref, _, self._ref_func_obj = self.ref_func(t-self.prev_task_time)
-                self.ref.pos += offset_pos           
+                ref_kwargs['offset_pos'] = offset_pos
+                ref_func = TrajectoryRef.get_by_value(self.tasks[self.task_num]["ref"])
+                self.ref_func = ref_func.ref_cf(**ref_kwargs)
+
+                self.curr_controller.ref_func = self.ref_func
+
+            virtual_time = t - self.prev_task_time
+            # if t < self.takeoff_time + self.warmup_time + self.tasks_time:
+            #     self.trajs.curr_state.pos -= offset_pos
+            #     self.ref, _, self._ref_func_obj = self.ref_func(t-self.prev_task_time)
+            #     self.ref.pos += offset_pos           
 
         ###### Landing
         else:
             if self.flag["land"]==0:
-                self.trajs.last_state = copy.deepcopy(self.state)
-                self.trajs.land = True
+                # self.trajs.last_state = copy.deepcopy(self.state)
+                # self.trajs.land = True
+                final_pt = np.array([self.state.pos[0], self.state.pos[1], self.exp_config["landing_height"],])
+                self.ref_func = takeofflanding_ref(final_pt, self.exp_config['landing_rate'], self.state, offset_pos=np.zeros(3))
+
                 print("********* LAND **********")
                 self.flag["land"] = 1
-                
-            self.ref,_ ,self._ref_func_obj= self.trajs.set_landing_ref(t - self.land_start_timer, 
-                                                    self.config["landing_height"],
-                                                    self.config["landing_rate"])  
-                 
-            self.ref_func = self.trajs.set_landing_ref
 
-        
-            self.land_buffer.appendleft(self.state.pos[-1])
-            self.land_buffer.pop()
-            if np.mean(self.land_buffer) < 0.06:
+                self.curr_controller.ref_func = self.ref_func
+
+                
+            # self.ref,_ ,self._ref_func_obj= self.trajs.set_landing_ref(t - self.land_start_timer, 
+            #                                         self.exp_config["landing_height"],
+            #                                         self.exp_config["landing_rate"])  
+                 
+            # self.ref_func = self.trajs.set_landing_ref
+            
+            if self.state.pos[-1] < self.exp_config["landing_height"] + 0.05:
                 print("***** Flight done! ******")
                 self.flag['land'] = 2
+
+        # Iterating over the tasks
+        # if t >= self.takeoff_time+self.tasks_time+self.warmup_time:
+        #     self.switch_controller(offset_pos)
+        
+        virtual_time = t - self.prev_task_time
+        ref_pos = self.ref_func.pos(virtual_time)
+        ref_vel = self.ref_func.vel(virtual_time)
+        self.ref = State_struct(ref_pos, ref_vel)
+
+        self.ref_func.curr_pose = self.state
+
+        # if self.task_num < len(self.tasks):
+            # print(ref_pos)
+
         
 
     def main_loop_cf(self,):
@@ -499,7 +497,7 @@ class ctrlCF():
         # All tasks are done taking the offset position (point after takeoff) as the origin
         self.init_pos = np.copy(self.state.pos)
         self.init_loop_params()
-        offset_pos = self.init_pos+np.array([0., 0., self.config["takeoff_height"]])
+        offset_pos = self.init_pos+np.array([0., 0., self.exp_config["takeoff_height"]])
         
         t = 0.0
         startTime = timeHelper.time()
@@ -518,12 +516,9 @@ class ctrlCF():
                 if t>self.warmup_time:
                     z_acc,ang_vel = self.curr_controller.response(t = t - self.prev_task_time, 
                                                                 state = self.state, 
-                                                                ref = self.ref, 
-                                                                ref_func = self.ref_func, 
-                                                                ref_func_obj = self._ref_func_obj, 
-                                                                adaptation_mean_value=self.adaptation_warmup_value,)
+                                                                )
 
-                self.adaptation_terms.append(np.copy(self.curr_controller.adaptation_terms))
+                # self.adaptation_terms.append(np.copy(self.curr_controller.adaptation_terms))
 
                 self.pose_positions.append(np.copy(self.pose_pos))
                 self.pose_orientations.append(self.state.rot.as_euler('ZYX', degrees=True))
@@ -586,7 +581,7 @@ class ctrlCF():
         # All tasks are done taking the offset position (point after takeoff) as the origin
         self.init_pos = np.array([0., 0., 0.])
         self.init_loop_params()
-        offset_pos = self.init_pos + np.array([0., 0., self.config["takeoff_height"]])
+        offset_pos = self.init_pos + np.array([0., 0., self.exp_config["takeoff_height"]])
 
         # Initializing States from the Quadsim Environment
         quadsim_state = self.cf.rb.state()
@@ -605,15 +600,10 @@ class ctrlCF():
 
             dist = [ConstantForce(scale=np.array([0.0, 0.0, 0]))]
             if t > self.warmup_time:
-
                 z_acc, ang_vel = self.curr_controller.response(t = t - self.prev_task_time, 
                                                                state = self.state, 
-                                                               ref = self.ref, 
-                                                               ref_func = self.ref_func, 
-                                                               ref_func_obj = self._ref_func_obj, 
-                                                               adaptation_mean_value=self.adaptation_warmup_value,
                                                                )   
-                self.adaptation_terms.append(np.copy(self.curr_controller.adaptation_terms))
+                # self.adaptation_terms.append(np.copy(self.curr_controller.adaptation_terms))
                                                                             
                 obs_state = self.cf.step_angvel_raw(self.dt, z_acc * self.cf.mass, ang_vel, k=0.4, dists=dist)
             

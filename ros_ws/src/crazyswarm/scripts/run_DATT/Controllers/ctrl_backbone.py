@@ -1,9 +1,10 @@
 import numpy as np
 import yaml
 import torch
-from quadsim.learning.train_policy import DroneTask, RLAlgo, SAVED_POLICY_DIR, import_config, CONFIG_DIR, TEST_POLICY_DIR
-from quadsim.learning.utils.adaptation_network import AdaptationNetwork
+from DATT.learning.train_policy import DroneTask, RLAlgo, SAVED_POLICY_DIR, import_config, CONFIG_DIR, TEST_POLICY_DIR
+from DATT.learning.utils.adaptation_network import AdaptationNetwork
 from stable_baselines3.common.env_util import make_vec_env
+from DATT.controllers  import cntrl_config_presets, ControllersZoo
 
 # importing MPPI
 from quadrotor_torch import Quadrotor_torch
@@ -117,6 +118,12 @@ class ControllerBackbone():
         config_dir = config_dir = os.path.dirname(os.path.abspath(__file__))
         with open(config_dir + "/mppi.yaml") as f:
             config = yaml.load(f, Loader=yaml.FullLoader)
+        
+        cntrl = ControllersZoo.MPPI
+        cntrl_config = cntrl_config_presets.datt_hover_config
+        controller = cntrl.cntrl(config, {cntrl._value_ : cntrl_config})
+
+
         
         self.param_MPPI = Param(config, MPPI=True)
         env_MPPI = Quadrotor_torch(self.param_MPPI, config)

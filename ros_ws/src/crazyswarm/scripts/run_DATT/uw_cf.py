@@ -603,13 +603,13 @@ class ctrlCF():
 
             dist = [ConstantForce(scale=np.array([0.0, 0.0, 0]))]
             if t > self.warmup_time:
-                z_acc, ang_vel = self.curr_controller.response(t = t - self.prev_task_time, 
-                                                               state = self.state, 
-                                                               )   
+                # z_acc, ang_vel = self.curr_controller.response(t = t - self.prev_task_time, 
+                #                                                state = self.state, 
+                #                                                )   
                 # self.adaptation_terms.append(np.copy(self.curr_controller.adaptation_terms))
                                                                             
-                obs_state = self.cf.step_angvel_raw(self.dt, z_acc * self.cf.mass, ang_vel, k=0.4, dists=dist)
-            
+                # obs_state = self.cf.step_angvel_raw(self.dt, z_acc * self.cf.mass, ang_vel, k=0.4, dists=dist)
+                obs_state = self.cf._step_angvel(t - self.prev_task_time, self.dt, self.curr_controller, dists=dist)
             # End Flight if landed
             if self.flag["land"] == 2:
                 z_acc, ang_vel = 0., np.zeros(3)

@@ -18,12 +18,11 @@ tasks:
     adaptive: False
     config: pid_config
     description: "Hover init"
-
+  
   - ref: 'random_zigzag'
-    cntrl: "MPPIController"
+    cntrl: "DATTController"
     time: 10.0
     adaptive: False
-    policy_config: none
-    description: "Trajectory mppi"
-    seed : 0
+    config: datt_config
+    description: "traj init"
     maxes : [1.0, 1.0, 0.0]

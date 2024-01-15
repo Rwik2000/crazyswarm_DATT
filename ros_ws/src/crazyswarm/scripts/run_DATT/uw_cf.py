@@ -291,7 +291,7 @@ class ctrlCF():
         if not self.isSim:
             # Rwik :
             # LOG_DIR = Path().home() / 'rwik_hdd/drones' / 'crazyswarm' / 'logs'
-            LOG_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../../../../../logs/CORL/aug_11/real/"
+            LOG_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../../../../../logs/CORL/logs/real/"
 
             # Guanya :
             # LOG_DIR = Path().home() / 'rwik_hdd/drones' / 'crazyswarm' / 'logs/'
@@ -337,7 +337,7 @@ class ctrlCF():
             
             # Guanya :
             # LOG_DIR = Path().home() / 'rwik/drones' / 'crazyswarm' / 'sim_logs'
-            LOG_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../../../../../logs/CORL/aug_11/sim/"
+            LOG_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../../../../../logs/CORL/logs/sim/"
             # LOG_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../../../../../sim_logs/"
 
             # Kevin : 
@@ -440,10 +440,7 @@ class ctrlCF():
                 self.curr_controller.start_pos = self.state.pos
 
             virtual_time = t - self.prev_task_time
-            # if t < self.takeoff_time + self.warmup_time + self.tasks_time:
-            #     self.trajs.curr_state.pos -= offset_pos
-            #     self.ref, _, self._ref_func_obj = self.ref_func(t-self.prev_task_time)
-            #     self.ref.pos += offset_pos           
+         
 
         ###### Landing
         else:
@@ -457,13 +454,6 @@ class ctrlCF():
                 self.flag["land"] = 1
 
                 self.curr_controller.ref_func = self.ref_func
-
-                
-            # self.ref,_ ,self._ref_func_obj= self.trajs.set_landing_ref(t - self.land_start_timer, 
-            #                                         self.exp_config["landing_height"],
-            #                                         self.exp_config["landing_rate"])  
-                 
-            # self.ref_func = self.trajs.set_landing_ref
             
             if self.state.pos[-1] < self.exp_config["landing_height"] + 0.05:
                 print("***** Flight done! ******")

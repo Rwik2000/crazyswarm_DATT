@@ -1,7 +1,5 @@
 # Hardware Implementation of DATT : Deep Adaptive Trajectory Tracking for Quadrotor control
 
-## Code Base under progress
-
 ## Training code : [https://github.com/KevinHuang8/DATT](https://github.com/KevinHuang8/DATT)
 
 ## Installation
@@ -16,24 +14,19 @@ git clone https://github.com/Rwik2000/crazyswarm_DATT
 
 ```
 
+## Crazyflie ID
+In `uw_cf.py` on Line 656, make sure you enter the cfname as "cf[id]". The [id] is the id you set for the crazyflie in the config file that is used in the launch file i.e. [custom_crazyflies.yaml](https://github.com/Rwik2000/crazyswarm_DATT/tree/main/ros_ws/src/crazyswarm/launch/custom_crazyflies.yaml)
+
 ## Drone Learning
 
 - DATT -> [https://github.com/Rwik2000/crazyswarm_DATT/tree/main/ros_ws/src/crazyswarm/scripts/run_DATT](https://github.com/Rwik2000/crazyswarm_DATT/tree/main/ros_ws/src/crazyswarm/scripts/run_DATT)
 
-#### Connecting with Quadsim
-Add quadsim to PYTHONPATH to run Learning based controllers and add MPPI folder within quadsim to the PYTHONPATH run MPPI  baseline.
+#### Connecting with DATT repo
+Add the parent folder of [DATT](https://github.com/KevinHuang8/DATT) repo to PYTHONPATH
 
 ```bash
-export PYTHONPATH="<path to quadsim>:<path to quadsim>/learning/BC_experts/MPPI:$PYTHONPATH"
+export PYTHONPATH="<parent path of DATT>"
 ```
-##### Symlinks
-```bash
-cd <path to `run_DATT`>
-ln -s <path to quadsim>/learning/saved_policies
-ln -s <path to quadsim>/learning/test_policies
-ln -s <path to quadsim>/learning/configuration
-```
-
 #### Sample run code
 ##### DATT
 ```bash
@@ -45,3 +38,10 @@ python3 uw_cf.py --config experiments/DATT/<fname>.yaml --quadsim -v true
 # Real
 python3 uw_cf.py --config experiments/DATT/<fname>.yaml
 ```
+
+
+
+Things to do
+- [ ] Support for RMA
+- [ ] Support for L1 adaptive control
+- [ ] Code cleanup

@@ -105,8 +105,6 @@ class ctrlCF():
                 pass
             else:
                 
-                # JUGAAD
-                # self.exp_config["tasks"][i]["config"]
                 cntrl_config = getattr(cntrl_config_presets, self.exp_config["tasks"][i]["config"])
                 self.controllers[ctrl_policy] = (globals()[self.exp_config["tasks"][i]["cntrl"]])(datt_config, cntrl_config)
                 # Warming up controller
@@ -352,7 +350,8 @@ class ctrlCF():
             self.ts = np.array(self.ts)
             self.thrust_cmds = np.array(self.thrust_cmds)
             self.ang_vel_cmds = np.array(self.ang_vel_cmds)
-            self.adaptation_terms = np.array(self.adaptation_terms)
+            # self.adaptation_terms = np.array(self.adaptation_terms)
+
             # self.ref_vel = np.array(self.ref_vel)
             print(LOG_DIR + self.logfile)
             np.savez(LOG_DIR + self.logfile, 
@@ -363,7 +362,7 @@ class ctrlCF():
                     ang_vel_cmds=self.ang_vel_cmds,
                     ts=self.ts,
                     thrust_cmds=self.thrust_cmds,
-                    adaptation_terms = self.adaptation_terms)
+                    )
     
     def switch_controller(self,offset_pos):
         ###### Setting the controller for the particular task
@@ -434,11 +433,11 @@ class ctrlCF():
                 else:
                     ref_kwargs['seed'] = self.def_seed
 
-                ref_kwargs['offset_pos'] = offset_pos
                 ref_func = TrajectoryRef.get_by_value(self.tasks[self.task_num]["ref"])
                 self.ref_func = ref_func.ref_cf(**ref_kwargs)
 
                 self.curr_controller.ref_func = self.ref_func
+                self.curr_controller.start_pos = self.state.pos
 
             virtual_time = t - self.prev_task_time
             # if t < self.takeoff_time + self.warmup_time + self.tasks_time:

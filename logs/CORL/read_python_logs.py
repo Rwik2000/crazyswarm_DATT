@@ -17,7 +17,7 @@ def plot_npz(filename):
     plt.legend()
     ax = plt.gca()
     ax.set_aspect('equal', 'box')
-    plt.show()
+    # plt.show()
 
     # print(pose_orientations.shape, pose_orientations.shape, cf_positions.shape, ts.shape, thrust_cmds.shape)
     
@@ -118,24 +118,24 @@ def plot_npz(filename):
         plt.plot(data_dict[key]['ts'], data_dict[key]['thrust_cmds'])
     plt.title('Cmd z acc (python)')
 
-    plt.figure(4)
-    ax1 = plt.subplot(3, 1, 1)
-    for key in data_dict.keys():
-        zero_error = np.zeros_like(data_dict[key]['ts'])
-        # plt.plot(data_dict[key]['ts'], data_dict[key]['pose_positions'][:, 0], label='/cf/pose position')
-        plt.plot(data_dict[key]['ts'], data_dict[key]['adaptation_terms'][:, 1], label='adapt')
-    plt.subplot(3, 1, 2, sharex=ax1)
-    for key in data_dict.keys():
-        zero_error = np.zeros_like(data_dict[key]['ts'])
-        # plt.plot(data_dict[key]['ts'], data_dict[key]['pose_positionss'][:, 1], label='/cf/pose position')
-        plt.plot(data_dict[key]['ts'], data_dict[key]['adaptation_terms'][:, 2] , label='adapt')
-    plt.subplot(3, 1, 3, sharex=ax1)
-    for key in data_dict.keys():
-        zero_error = np.zeros_like(data_dict[key]['ts'])
-        # plt.plot(data_dict[key]['ts'], data_dict[key]['pose_positionss'][:, 2], label='/cf/pose position')
-        plt.plot(data_dict[key]['ts'], data_dict[key]['adaptation_terms'][:, 3] , label=key+'_adapt')
-    plt.legend()
-    plt.suptitle('adaptation_terms')
+    # plt.figure(4)
+    # ax1 = plt.subplot(3, 1, 1)
+    # for key in data_dict.keys():
+    #     zero_error = np.zeros_like(data_dict[key]['ts'])
+    #     # plt.plot(data_dict[key]['ts'], data_dict[key]['pose_positions'][:, 0], label='/cf/pose position')
+    #     plt.plot(data_dict[key]['ts'], data_dict[key]['adaptation_terms'][:, 1], label='adapt')
+    # plt.subplot(3, 1, 2, sharex=ax1)
+    # for key in data_dict.keys():
+    #     zero_error = np.zeros_like(data_dict[key]['ts'])
+    #     # plt.plot(data_dict[key]['ts'], data_dict[key]['pose_positionss'][:, 1], label='/cf/pose position')
+    #     plt.plot(data_dict[key]['ts'], data_dict[key]['adaptation_terms'][:, 2] , label='adapt')
+    # plt.subplot(3, 1, 3, sharex=ax1)
+    # for key in data_dict.keys():
+    #     zero_error = np.zeros_like(data_dict[key]['ts'])
+    #     # plt.plot(data_dict[key]['ts'], data_dict[key]['pose_positionss'][:, 2], label='/cf/pose position')
+    #     plt.plot(data_dict[key]['ts'], data_dict[key]['adaptation_terms'][:, 3] , label=key+'_adapt')
+    # plt.legend()
+    # plt.suptitle('adaptation_terms')
 
     # # try:
     # plt.figure(4)

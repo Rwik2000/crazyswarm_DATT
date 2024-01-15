@@ -23,6 +23,7 @@ def load_cf_data(filenames, args):
     # plt.figure(9)
     for i in filenames:
         data = {}
+
         saved_data = dict(np.load(i, allow_pickle=True))
 
         minimum_len = np.inf
@@ -38,7 +39,6 @@ def load_cf_data(filenames, args):
         
 
         data['ts'] = saved_data['ts'][t_mask]
-        # import pdb;pdb.set_trace()
 
         data['ref_positions'] = saved_data['ref_positions'][t_mask] #- saved_data['ref_positions'][st]
 
@@ -59,17 +59,17 @@ def load_cf_data(filenames, args):
         data['thrust_cmds'] = saved_data['thrust_cmds'][t_mask]
         data['ang_vel_cmds'] = saved_data['ang_vel_cmds'][t_mask]
 
-        try:
-            if isinstance(saved_data['adaptation_terms'][0], torch.Tensor):
-                saved_data['adaptation_terms'] = [saved_data['adaptation_terms'][i].numpy() for i in range(len(saved_data['adaptation_terms']))]
-            data['adaptation_terms'] = saved_data['adaptation_terms'][t_mask]
-            # if 'real' not in i:
-            # plt.plot(saved_data['ts'], np.array(saved_data['adaptation_terms'])[:, 0], label=i)
-            # else:
-                # plt.plot(saved_data['ts'], np.array(saved_data['adaptation_terms'])[:, 0] / 1.3, label=i)
+        # try:
+        #     if isinstance(saved_data['adaptation_terms'][0], torch.Tensor):
+        #         saved_data['adaptation_terms'] = [saved_data['adaptation_terms'][i].numpy() for i in range(len(saved_data['adaptation_terms']))]
+        #     data['adaptation_terms'] = saved_data['adaptation_terms'][t_mask]
+        #     # if 'real' not in i:
+        #     # plt.plot(saved_data['ts'], np.array(saved_data['adaptation_terms'])[:, 0], label=i)
+        #     # else:
+        #         # plt.plot(saved_data['ts'], np.array(saved_data['adaptation_terms'])[:, 0] / 1.3, label=i)
 
-        except:
-            pass
+        # except:
+        #     pass
         
         data_dict[i] = data
     # plt.legend()
